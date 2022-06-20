@@ -1,0 +1,631 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Warning message in read.table(file = file, header = header, sep = sep, quote = quote, :\n",
+      "“not all columns named in 'colClasses' exist”"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<table>\n",
+       "<caption>A data.frame: 6 × 8</caption>\n",
+       "<thead>\n",
+       "\t<tr><th></th><th scope=col>CD_ID</th><th scope=col>YEAR</th><th scope=col>CROP_TYPE</th><th scope=col>GEO</th><th scope=col>SEEDED_AREA</th><th scope=col>HARVESTED_AREA</th><th scope=col>PRODUCTION</th><th scope=col>AVG_YIELD</th></tr>\n",
+       "\t<tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>\n",
+       "</thead>\n",
+       "<tbody>\n",
+       "\t<tr><th scope=row>1</th><td>0</td><td>1965-12-31</td><td>Barley</td><td>Alberta     </td><td>1372000</td><td>1372000</td><td>2504000</td><td>1825</td></tr>\n",
+       "\t<tr><th scope=row>2</th><td>1</td><td>1965-12-31</td><td>Barley</td><td>Canada      </td><td>2476800</td><td>2476800</td><td>4752900</td><td>1920</td></tr>\n",
+       "\t<tr><th scope=row>3</th><td>2</td><td>1965-12-31</td><td>Barley</td><td>Saskatchewan</td><td> 708000</td><td> 708000</td><td>1415000</td><td>2000</td></tr>\n",
+       "\t<tr><th scope=row>4</th><td>3</td><td>1965-12-31</td><td>Canola</td><td>Alberta     </td><td> 297400</td><td> 297400</td><td> 215500</td><td> 725</td></tr>\n",
+       "\t<tr><th scope=row>5</th><td>4</td><td>1965-12-31</td><td>Canola</td><td>Canada      </td><td> 580700</td><td> 580700</td><td> 512600</td><td> 885</td></tr>\n",
+       "\t<tr><th scope=row>6</th><td>5</td><td>1965-12-31</td><td>Canola</td><td>Saskatchewan</td><td> 224600</td><td> 224600</td><td> 242700</td><td>1080</td></tr>\n",
+       "</tbody>\n",
+       "</table>\n"
+      ],
+      "text/latex": [
+       "A data.frame: 6 × 8\n",
+       "\\begin{tabular}{r|llllllll}\n",
+       "  & CD\\_ID & YEAR & CROP\\_TYPE & GEO & SEEDED\\_AREA & HARVESTED\\_AREA & PRODUCTION & AVG\\_YIELD\\\\\n",
+       "  & <int> & <chr> & <fct> & <fct> & <int> & <int> & <int> & <int>\\\\\n",
+       "\\hline\n",
+       "\t1 & 0 & 1965-12-31 & Barley & Alberta      & 1372000 & 1372000 & 2504000 & 1825\\\\\n",
+       "\t2 & 1 & 1965-12-31 & Barley & Canada       & 2476800 & 2476800 & 4752900 & 1920\\\\\n",
+       "\t3 & 2 & 1965-12-31 & Barley & Saskatchewan &  708000 &  708000 & 1415000 & 2000\\\\\n",
+       "\t4 & 3 & 1965-12-31 & Canola & Alberta      &  297400 &  297400 &  215500 &  725\\\\\n",
+       "\t5 & 4 & 1965-12-31 & Canola & Canada       &  580700 &  580700 &  512600 &  885\\\\\n",
+       "\t6 & 5 & 1965-12-31 & Canola & Saskatchewan &  224600 &  224600 &  242700 & 1080\\\\\n",
+       "\\end{tabular}\n"
+      ],
+      "text/markdown": [
+       "\n",
+       "A data.frame: 6 × 8\n",
+       "\n",
+       "| <!--/--> | CD_ID &lt;int&gt; | YEAR &lt;chr&gt; | CROP_TYPE &lt;fct&gt; | GEO &lt;fct&gt; | SEEDED_AREA &lt;int&gt; | HARVESTED_AREA &lt;int&gt; | PRODUCTION &lt;int&gt; | AVG_YIELD &lt;int&gt; |\n",
+       "|---|---|---|---|---|---|---|---|---|\n",
+       "| 1 | 0 | 1965-12-31 | Barley | Alberta      | 1372000 | 1372000 | 2504000 | 1825 |\n",
+       "| 2 | 1 | 1965-12-31 | Barley | Canada       | 2476800 | 2476800 | 4752900 | 1920 |\n",
+       "| 3 | 2 | 1965-12-31 | Barley | Saskatchewan |  708000 |  708000 | 1415000 | 2000 |\n",
+       "| 4 | 3 | 1965-12-31 | Canola | Alberta      |  297400 |  297400 |  215500 |  725 |\n",
+       "| 5 | 4 | 1965-12-31 | Canola | Canada       |  580700 |  580700 |  512600 |  885 |\n",
+       "| 6 | 5 | 1965-12-31 | Canola | Saskatchewan |  224600 |  224600 |  242700 | 1080 |\n",
+       "\n"
+      ],
+      "text/plain": [
+       "  CD_ID YEAR       CROP_TYPE GEO          SEEDED_AREA HARVESTED_AREA PRODUCTION\n",
+       "1 0     1965-12-31 Barley    Alberta      1372000     1372000        2504000   \n",
+       "2 1     1965-12-31 Barley    Canada       2476800     2476800        4752900   \n",
+       "3 2     1965-12-31 Barley    Saskatchewan  708000      708000        1415000   \n",
+       "4 3     1965-12-31 Canola    Alberta       297400      297400         215500   \n",
+       "5 4     1965-12-31 Canola    Canada        580700      580700         512600   \n",
+       "6 5     1965-12-31 Canola    Saskatchewan  224600      224600         242700   \n",
+       "  AVG_YIELD\n",
+       "1 1825     \n",
+       "2 1920     \n",
+       "3 2000     \n",
+       "4  725     \n",
+       "5  885     \n",
+       "6 1080     "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<table>\n",
+       "<caption>A data.frame: 6 × 3</caption>\n",
+       "<thead>\n",
+       "\t<tr><th></th><th scope=col>DFX_ID</th><th scope=col>DATE</th><th scope=col>FXUSDCAD</th></tr>\n",
+       "\t<tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>\n",
+       "</thead>\n",
+       "<tbody>\n",
+       "\t<tr><th scope=row>1</th><td>0</td><td>2017-01-03</td><td>1.3435</td></tr>\n",
+       "\t<tr><th scope=row>2</th><td>1</td><td>2017-01-04</td><td>1.3315</td></tr>\n",
+       "\t<tr><th scope=row>3</th><td>2</td><td>2017-01-05</td><td>1.3244</td></tr>\n",
+       "\t<tr><th scope=row>4</th><td>3</td><td>2017-01-06</td><td>1.3214</td></tr>\n",
+       "\t<tr><th scope=row>5</th><td>4</td><td>2017-01-09</td><td>1.3240</td></tr>\n",
+       "\t<tr><th scope=row>6</th><td>5</td><td>2017-01-10</td><td>1.3213</td></tr>\n",
+       "</tbody>\n",
+       "</table>\n"
+      ],
+      "text/latex": [
+       "A data.frame: 6 × 3\n",
+       "\\begin{tabular}{r|lll}\n",
+       "  & DFX\\_ID & DATE & FXUSDCAD\\\\\n",
+       "  & <int> & <fct> & <dbl>\\\\\n",
+       "\\hline\n",
+       "\t1 & 0 & 2017-01-03 & 1.3435\\\\\n",
+       "\t2 & 1 & 2017-01-04 & 1.3315\\\\\n",
+       "\t3 & 2 & 2017-01-05 & 1.3244\\\\\n",
+       "\t4 & 3 & 2017-01-06 & 1.3214\\\\\n",
+       "\t5 & 4 & 2017-01-09 & 1.3240\\\\\n",
+       "\t6 & 5 & 2017-01-10 & 1.3213\\\\\n",
+       "\\end{tabular}\n"
+      ],
+      "text/markdown": [
+       "\n",
+       "A data.frame: 6 × 3\n",
+       "\n",
+       "| <!--/--> | DFX_ID &lt;int&gt; | DATE &lt;fct&gt; | FXUSDCAD &lt;dbl&gt; |\n",
+       "|---|---|---|---|\n",
+       "| 1 | 0 | 2017-01-03 | 1.3435 |\n",
+       "| 2 | 1 | 2017-01-04 | 1.3315 |\n",
+       "| 3 | 2 | 2017-01-05 | 1.3244 |\n",
+       "| 4 | 3 | 2017-01-06 | 1.3214 |\n",
+       "| 5 | 4 | 2017-01-09 | 1.3240 |\n",
+       "| 6 | 5 | 2017-01-10 | 1.3213 |\n",
+       "\n"
+      ],
+      "text/plain": [
+       "  DFX_ID DATE       FXUSDCAD\n",
+       "1 0      2017-01-03 1.3435  \n",
+       "2 1      2017-01-04 1.3315  \n",
+       "3 2      2017-01-05 1.3244  \n",
+       "4 3      2017-01-06 1.3214  \n",
+       "5 4      2017-01-09 1.3240  \n",
+       "6 5      2017-01-10 1.3213  "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "#Creating a dataframe from website data\n",
+    "Crop_df <- read.csv('https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-RP0203EN-SkillsNetwork/labs/Final%20Project/Annual_Crop_Data.csv', colClasses=c(YEAR=\"character\"))\n",
+    "    Bank_df <- read.csv('https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-RP0203EN-SkillsNetwork/labs/Final%20Project/Daily_FX.csv', colClasses=c(date=\"character\"))\n",
+    "\n",
+    "    head(Crop_df)\n",
+    "    head(Bank_df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Creating database connection\n",
+    "dsn_driver <- \"IBM DB2 ODBC Driver\"\n",
+    "dsn_database <- \"bludb\"           \n",
+    "dsn_hostname <- \"98538591-7217-4024-b027-8baa776ffad1.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud\" \n",
+    "dsn_port <- \"30875\"    \n",
+    "dsn_protocol <- \"TCPIP\"            \n",
+    "dsn_uid <- \"vfx98987\"        \n",
+    "dsn_pwd <- \"J1TrjxkhFgYHCkhw\"      \n",
+    "dsn_security <- \"ssl\"\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "RODBC Connection 1\n",
+       "Details:\n",
+       "  case=nochange\n",
+       "  DRIVER=IBM DB2 ODBC DRIVER\n",
+       "  UID=vfx98987\n",
+       "  PWD=******\n",
+       "  DATABASE=bludb\n",
+       "  HOSTNAME=98538591-7217-4024-b027-8baa776ffad1.c3n41cmd0nqnrk39u98g.databases.appdomain.cloud\n",
+       "  PORT=30875\n",
+       "  PROTOCOL=TCPIP\n",
+       "  SECURITY=SSL"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "library(RODBC);\n",
+    "#Connecting to the databse\n",
+    "conn_path <- paste(\"DRIVER=\",dsn_driver,\n",
+    "                  \";DATABASE=\",dsn_database,\n",
+    "                  \";HOSTNAME=\",dsn_hostname,\n",
+    "                  \";PORT=\",dsn_port,\n",
+    "                  \";PROTOCOL=\",dsn_protocol,\n",
+    "                  \";UID=\",dsn_uid,\n",
+    "                  \";PWD=\",dsn_pwd,\n",
+    "                  \";SECURITY=\",dsn_security,        \n",
+    "                    sep=\"\")\n",
+    "conn <- odbcDriverConnect(conn_path)\n",
+    "conn"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<strong>DBMS_Name:</strong> 'DB2/LINUXX8664'"
+      ],
+      "text/latex": [
+       "\\textbf{DBMS\\textbackslash{}\\_Name:} 'DB2/LINUXX8664'"
+      ],
+      "text/markdown": [
+       "**DBMS_Name:** 'DB2/LINUXX8664'"
+      ],
+      "text/plain": [
+       "       DBMS_Name \n",
+       "\"DB2/LINUXX8664\" "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<strong>DBMS_Ver:</strong> '11.05.0700'"
+      ],
+      "text/latex": [
+       "\\textbf{DBMS\\textbackslash{}\\_Ver:} '11.05.0700'"
+      ],
+      "text/markdown": [
+       "**DBMS_Ver:** '11.05.0700'"
+      ],
+      "text/plain": [
+       "    DBMS_Ver \n",
+       "\"11.05.0700\" "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/html": [
+       "<strong>Driver_ODBC_Ver:</strong> '03.51'"
+      ],
+      "text/latex": [
+       "\\textbf{Driver\\textbackslash{}\\_ODBC\\textbackslash{}\\_Ver:} '03.51'"
+      ],
+      "text/markdown": [
+       "**Driver_ODBC_Ver:** '03.51'"
+      ],
+      "text/plain": [
+       "Driver_ODBC_Ver \n",
+       "        \"03.51\" "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "#Viewing database driver information\n",
+    "sql.info <- sqlTypeInfo(conn)\n",
+    "conn.info <- odbcGetInfo(conn)\n",
+    "conn.info[\"DBMS_Name\"]\n",
+    "conn.info[\"DBMS_Ver\"]\n",
+    "conn.info[\"Driver_ODBC_Ver\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Table:  CROP  was dropped\n",
+      "Table:  BANKEX  was dropped\n"
+     ]
+    }
+   ],
+   "source": [
+    "#checking if the tables exist and dropping them if they exist\n",
+    "myschema <- \"VFX98987\" \n",
+    "    tables <- c(\"CROP\", \"BANKEX\") \n",
+    "\n",
+    "    for (table in tables) {\n",
+    "        # Drop tables if they already exist\n",
+    "        out <- sqlTables(conn, tableType = \"TABLE\",\n",
+    "                          tableName = table)\n",
+    "        if (nrow(out)>0) {\n",
+    "            err <- sqlDrop(conn, table,\n",
+    "                            errors=FALSE)  \n",
+    "            if (err==-1) {\n",
+    "                cat(\"An error has occurred.\\n\")\n",
+    "                err.msg <- odbcGetErrMsg(conn)\n",
+    "                for (error in err.msg) { \n",
+    "                    cat(error,\"\\n\")\n",
+    "                }\n",
+    "            } \n",
+    "            else {\n",
+    "                cat (\"Table: \",table,\" was dropped\\n\")\n",
+    "            }\n",
+    "        }\n",
+    "        else {\n",
+    "              cat (\"Table: \", table,\" does not exist\\n\")\n",
+    "        }\n",
+    "    }\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Creat table CROP\n",
+    "df1 <- sqlQuery(conn, \"CREATE TABLE CROP (\n",
+    "                            CD_ID VARCHAR(6) NOT NULL, \n",
+    "                            YEAR VARCHAR(10) NOT NULL, \n",
+    "                            CROP_TYPE VARCHAR(50) NOT NULL, \n",
+    "                            GEO VARCHAR(50) NOT NULL, \n",
+    "                            SEED_AREA INTEGER NOT NULL,\n",
+    "                            HARVESTED_AREA INTEGER NOT NULL,\n",
+    "                            PRODUCTION INTEGER NOT NULL,\n",
+    "                            AVG_YEILD INTEGER NOT NULL,\n",
+    "                            PRIMARY KEY (CD_ID))\", \n",
+    "                errors=FALSE)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Table was created successfully.\n"
+     ]
+    }
+   ],
+   "source": [
+    "if (df1 == -1){\n",
+    "  cat (\"An error has occurred.\\n\")\n",
+    "  msg <- odbcGetErrMsg(conn)\n",
+    "  print (msg)\n",
+    "} else {\n",
+    "  cat (\"Table was created successfully.\\n\")\n",
+    "}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Creat table BANKEX\n",
+    "df2 <- sqlQuery(conn, \"CREATE TABLE BANKEX (\n",
+    "                            DFX_ID CHAR(6) NOT NULL, \n",
+    "                            DATE VARCHAR(10) NOT NULL, \n",
+    "                            FXUSDCAD FLOAT(6) , \n",
+    "                            \n",
+    "                            PRIMARY KEY (DFX_ID))\", \n",
+    "                errors=FALSE)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Table was created successfully.\n"
+     ]
+    }
+   ],
+   "source": [
+    "if (df2 == -1){\n",
+    "  cat (\"An error has occurred.\\n\")\n",
+    "  msg <- odbcGetErrMsg(conn)\n",
+    "  print (msg)\n",
+    "} else {\n",
+    "  cat (\"Table was created successfully.\\n\")\n",
+    "}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Saving crop data into created table crop\n",
+    "sqlSave(conn, Crop_df, \"CROP\" ,append=TRUE, fast=FALSE,rownames=FALSE, colnames=FALSE, verbose=FALSE)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Saving bank data into created table bankex\n",
+    "sqlSave(conn, Bank_df, \"BANKEX\" ,append=TRUE, fast=FALSE,rownames=FALSE, colnames=FALSE, verbose=FALSE)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Checking data size or number of rows in given data\n",
+    "query = \"SELECT COUNT(CD_ID) FROM CROP\"\n",
+    "    sqlQuery(conn,query)\n",
+    "    \n",
+    "query = \"SELECT COUNT(DFX_ID) FROM BANKEX\"\n",
+    "    sqlQuery(conn,query)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Using SQL to display initial data\n",
+    "query <- \"SELECT * FROM CROP LIMIT 6;\"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Checking the various types of crops in the table using SQL and R\n",
+    "query <- \"SELECT DISTINCT(CROP_TYPE) FROM CROP;\"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Checking all details where crop is Rye for 6 entries\n",
+    "query <- \"SELECT * FROM CROP WHERE CROP_TYPE='Rye' LIMIT 6;\"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Checking which crops have an average yeild greater than or equal to 3000 hectare\n",
+    "query <- \"SELECT DISTINCT(CROP_TYPE) FROM CROP WHERE AVG_YEILD>=3000;\"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Checking the first and the last dates of each year\n",
+    "\n",
+    "query <- \"SELECT MIN(YEAR) FIRST, MAX(YEAR) LAST FROM CROP;\"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view\n",
+    "\n",
+    "\n",
+    "query <- \"SELECT MIN(DATE) FIRST, MAX(DATE) LAST FROM BANKEX;\"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### List the top 10 years of Wheat production in Saskatchewan in terms of harvested area.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Selecting Top 10 years of Wheat production in Saskatechewan \n",
+    "query <- \"SELECT YEAR, HARVESTED_AREA FROM CROP WHERE GEO='Saskatchewan' AND CROP_TYPE='Wheat' ORDER BY HARVESTED_AREA DESC LIMIT 10;\"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### How many years did Barley yield at least 2000 KG per Hectare in Canada?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Counting number of years when Barley yeild was greater than or equal to 2000KG in Canada\n",
+    "query <- \"select count(distinct(Year)) from CROP where GEO='Canada' and CROP_TYPE='Barley' and AVG_YEILD>=2000;\"\n",
+    "view <- sqlQuery(conn,query)\n",
+    "view"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Selecting land seeded but not harvested with barley in Alberta since year 2000\n",
+    "query <- \"select YEAR(YEAR),GEO,CROP_TYPE, SEED_AREA, HARVESTED_AREA,100*(SEED_AREA-HARVESTED_AREA)/SEED_AREA as UNHARVESTED_AREA from CROP where year(year)>=2000 and GEO='Alberta' and CROP_TYPE='Barley';\"\n",
+    "view <- sqlQuery(conn,query)\n",
+    "view"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Selecting average value of Canadian Dollar over the last three years\n",
+    "query <- \"SELECT  AVG(FXUSDCAD) AS FX_DAILY_AVG_CAD \n",
+    "    FROM  BANKEX limit 3;\n",
+    "    \"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Use an implicit inner join to create a view of the crop data with an FX column included.\n",
+    "\n",
+    "For simplicity, just use the FX values from December for each year.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#\n",
+    "query <- \"SELECT CD_ID, YEAR, CROP_TYPE, GEO, SEEDED_AREA, HARVESTED_AREA, PRODUCTION, AVG_YIELD, FXUSDCAD  \n",
+    "    FROM CROP, BANK_EX \n",
+    "    WHERE YEAR(CROP_DATA.YEAR)=YEAR(MONTHLY_FX.DATE) AND MONTH(CROP_DATA.YEAR)=MONTH(MONTHLY_FX.DATE)\n",
+    "    LIMIT 5;\"\n",
+    "    view <- sqlQuery(conn,query)\n",
+    "    view"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Closing the Connection\n",
+    "close(conn)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "R",
+   "language": "R",
+   "name": "conda-env-r-r"
+  },
+  "language_info": {
+   "codemirror_mode": "r",
+   "file_extension": ".r",
+   "mimetype": "text/x-r-source",
+   "name": "R",
+   "pygments_lexer": "r",
+   "version": "3.5.1"
+  },
+  "widgets": {
+   "state": {},
+   "version": "1.1.2"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
